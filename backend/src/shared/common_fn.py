@@ -3,7 +3,7 @@ import logging
 from src.document_sources.youtube import create_youtube_url
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_vertexai import VertexAIEmbeddings
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, AzureOpenAIEmbeddings
 from langchain_neo4j import Neo4jGraph
 from neo4j.exceptions import TransientError
 from langchain_community.graphs.graph_document import GraphDocument
@@ -74,6 +74,10 @@ def load_embedding_model(embedding_model_name: str):
         embeddings = OpenAIEmbeddings()
         dimension = 1536
         logging.info(f"Embedding: Using OpenAI Embeddings , Dimension:{dimension}")
+    elif embedding_model_name == "azure_openai":        
+        embeddings = AzureOpenAIEmbeddings(model="text-embedding-ada-002")
+        dimension = 1536
+        logging.info(f"Embedding: Using Azure OpenAI Embeddings , Dimension:{dimension}")
     elif embedding_model_name == "vertexai":        
         embeddings = VertexAIEmbeddings(
             model="textembedding-gecko@003"
